@@ -16,31 +16,29 @@ public class ListenerOperations implements ActionListener {
     String calcText = calc.text.getText();
     if (clickedOperation.equals("+")){
         Sum.setNumber(Double.parseDouble(calcText));
-        Sum.setOperation("+");
+        Sum.setOperation(1);
             calc.text.setText("");
     }
     else if (clickedOperation.equals("-")){
         Sum.setNumber(Double.parseDouble(calcText));
-        Sum.setOperation("-");
+        Sum.setOperation(2);
             calc.text.setText("");
         
     }
     else if (clickedOperation.equals("x")){
         Sum.setNumber(Double.parseDouble(calcText));
-        Sum.setOperation("x");
+        Sum.setOperation(3);
             calc.text.setText("");
         
     }
     else if (clickedOperation.equals("/")){
         Sum.setNumber(Double.parseDouble(calcText));
-        Sum.setOperation("/");
+        Sum.setOperation(4);
             calc.text.setText("");
         
     }
      else if (clickedOperation.equals("DEL")){
-            Sum.number1=0;
-            Sum.number2=0;
-            Sum.operation="";
+            Sum.clear();
             calc.text.setText("");
         
     }

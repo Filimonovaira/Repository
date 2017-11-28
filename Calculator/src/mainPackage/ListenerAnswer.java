@@ -12,22 +12,10 @@ public class ListenerAnswer implements ActionListener {
         }
     public void actionPerformed(ActionEvent e){
          String calcText = calc.text.getText();
-         if (Sum.operation.equals("+")){
-            answer=Sum.number1+Double.parseDouble(calcText);
+         Sum.setNumber(Double.parseDouble(calcText));
+         answer=Sum.solveOnPriority();
             calc.text.setText(Double.toString(answer));
-         }
-         else if (Sum.operation.equals("-")){
-            answer=Sum.number1-Double.parseDouble(calcText);
-               calc.text.setText(Double.toString(answer));
-         }
-         else if (Sum.operation.equals("x")){
-            answer=Sum.number1*Double.parseDouble(calcText);
-               calc.text.setText(Double.toString(answer));
-         }
-         else if (Sum.operation.equals("/")){
-            answer=Sum.number1/Double.parseDouble(calcText);
-               calc.text.setText(Double.toString(answer));
-         }
+        
 
     }
 }

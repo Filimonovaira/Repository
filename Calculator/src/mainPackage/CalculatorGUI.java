@@ -75,5 +75,8 @@ import javax.swing.JTextField;
 
         this.setVisible(true);
        }
+       public void newText(String str){
+           text.setText(str);
+       }
   
 }
