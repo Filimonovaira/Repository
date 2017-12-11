@@ -12,8 +12,9 @@ import javax.swing.JTextField;
     private JButton [][] number;
     private JButton [] operations;
     JTextField text;
+    ListenerAnswer listenAn = new ListenerAnswer (this); 
+    ListenerOperations listenOp = new ListenerOperations (this,listenAn);
      CalculatorGUI(){
-    
     super("Calculator");
     //setSize(700, 700);
     setLocationRelativeTo(null);
@@ -25,9 +26,10 @@ import javax.swing.JTextField;
         mainPanel.add(addButtonsNumber());
         mainPanel.add(addButtonsOperations(),BorderLayout.EAST);
         setContentPane(mainPanel);
-  }   
+
+   }   
      private JPanel addButtonsNumber(){
-         ListenerNumbers  listen = new ListenerNumbers (this);
+         ListenerNumbers  listen = new ListenerNumbers (this,listenAn);
         JPanel buttonsPanel = new JPanel(new GridLayout(4,3)); 
       number = new JButton [4][3];
         int k = 0;
@@ -41,16 +43,15 @@ import javax.swing.JTextField;
         number[3][0]=new JButton("0");
          buttonsPanel.add(number[3][0]);
          number[3][0].addActionListener(listen);
-         number[3][1]=new JButton(",");
+         //number[3][1]=new JButton(",");
+        // buttonsPanel.add(number[3][1]);
+         //number[3][1].addActionListener(listen);
+         number[3][1]=new JButton("DEL");
          buttonsPanel.add(number[3][1]);
-         number[3][1].addActionListener(listen);
-         number[3][2]=new JButton("DEL");
-         buttonsPanel.add(number[3][2]);
          return buttonsPanel;
   }
       private JPanel addButtonsOperations(){
-        ListenerOperations listenOp = new ListenerOperations (this);
-        ListenerAnswer listenAn = new ListenerAnswer (this);       
+ 
         JPanel operationPanel = new JPanel(new GridLayout(5,1)); 
          operations = new JButton[5];
          operations[0]=new JButton("+");
@@ -68,7 +69,7 @@ import javax.swing.JTextField;
          operations[4]=new JButton("=");
          operationPanel.add(operations[4]);
          operations[4].addActionListener(listenAn);
-         number[3][2].addActionListener(listenOp);
+         number[3][1].addActionListener(listenOp);
         return operationPanel;
       }
        public void Run(){

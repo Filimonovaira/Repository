@@ -7,38 +7,41 @@ import javax.swing.JButton;
 
 public class ListenerOperations implements ActionListener {
     CalculatorGUI calc;
-    ListenerOperations(CalculatorGUI calc){
+    ListenerAnswer listenAn;
+    ListenerOperations(CalculatorGUI calc,ListenerAnswer listenAn){
     this.calc = calc;
+    this.listenAn=listenAn;
     }
     public void actionPerformed(ActionEvent e){
     JButton clickedButton= (JButton)e.getSource(); 
     String clickedOperation = clickedButton.getText();
     String calcText = calc.text.getText();
+
     if (clickedOperation.equals("+")){
-        Sum.setNumber(Double.parseDouble(calcText));
-        Sum.setOperation(1);
+        listenAn.setNumber(Integer.parseInt(calcText));
+        listenAn.setOperation(1);
             calc.text.setText("");
     }
     else if (clickedOperation.equals("-")){
-        Sum.setNumber(Double.parseDouble(calcText));
-        Sum.setOperation(2);
+        listenAn.setNumber(Integer.parseInt(calcText));
+        listenAn.setOperation(2);
             calc.text.setText("");
         
     }
     else if (clickedOperation.equals("x")){
-        Sum.setNumber(Double.parseDouble(calcText));
-        Sum.setOperation(3);
+        listenAn.setNumber(Integer.parseInt(calcText));
+        listenAn.setOperation(3);
             calc.text.setText("");
         
     }
     else if (clickedOperation.equals("/")){
-        Sum.setNumber(Double.parseDouble(calcText));
-        Sum.setOperation(4);
+        listenAn.setNumber(Integer.parseInt(calcText));
+        listenAn.setOperation(4);
             calc.text.setText("");
         
     }
      else if (clickedOperation.equals("DEL")){
-            Sum.clear();
+            listenAn.clear();
             calc.text.setText("");
         
     }

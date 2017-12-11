@@ -16,7 +16,7 @@ public class Logging {
         try {
             Files.createFile(path);
             Date today = new Date();
-            //Files.write(path, today);
+            
             
         } catch (IOException ex) {
             Logger.getLogger(Logging.class.getName()).log(Level.SEVERE, null, ex);

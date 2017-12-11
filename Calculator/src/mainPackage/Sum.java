@@ -7,24 +7,25 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class Sum {
-    //static double number1 = 0;
-    //static double number2 = 0;
-    static ArrayList <Double> operand = new ArrayList <Double> ();
-    static ArrayList <Integer> operation = new ArrayList <Integer> ();
-    //static String operation = "";
-    //static String operation = "";
-    static  void setNumber (double d){
-        operand.add(d);
+    private ArrayList <Integer> number = new ArrayList <Integer> ();
+    private ArrayList <Integer> operation = new ArrayList <Integer> ();
+    private double answer;
+    ListenerAnswer listenAn;
+    Caching cache;
+    Sum(ListenerAnswer listenAn, ArrayList<Integer> number, ArrayList<Integer> operation, Caching cache) {
+      this.listenAn = listenAn;
+      this.number=number;
+      this.operation=operation;
+      this.cache=cache;
+      
+       listenAn.setAnswer(solveOnPriority());
     }
-    static  void setOperation (int op){
-        operation.add(op);
-    }
-    static double solveOnPriority (){
-        double answer = 0;
-        try{
+
+    public double solveOnPriority (){
+        
             for (int i = 0; i < operation.size(); i++) {
                 if ((operation.get(i) == 3) || (operation.get(i) == 4)){
-                    operand.set(i,solve(i));
+                    number.set(i,solve(i));
                     i--;         
                 }
                 if (!operation.contains(4) & !operation.contains(3)){
@@ -33,48 +34,42 @@ public class Sum {
             }
             do {
             for (int i = 0; i < operation.size(); i++) {
-                operand.set(i,solve(i));
+                number.set(i,solve(i));
                     i--;         
             }
             }while(operation.size()!=0);
-            answer = operand.get(0);
-            System.out.println(operand.size());
-        }
-          catch (Exception e){
-           System.out.println("Error");
-       }  
+            answer = number.get(0);
+
         return answer;
     }
-    static double solve (int index){
-         double res = 0;
+    public int solve (int index){
+        Operation op = new Operation(number.get(index),number.get(index+1),operation.get(index));
+        cache.caching(op);
+        
+        /*
          switch(operation.get(index)){
              case 1:
-                res=operand.get(index)+operand.get(index+1); 
+                res=number.get(index)+number.get(index+1); 
                 break;
              case 2:
-                res=operand.get(index)-operand.get(index+1); 
+                res=number.get(index)-number.get(index+1); 
                 break;
              case 3:
-                res=operand.get(index)*operand.get(index+1); 
+                res=number.get(index)*number.get(index+1); 
                 break;
              case 4:
-                res=operand.get(index)/operand.get(index+1); 
+                res=number.get(index)/number.get(index+1); 
                 break;
          }
+         */
           operation.remove(index);
-          operand.remove(index+1);
-         return res;
+          number.remove(index+1);
+         return (int)op.getAnswer();
      }
-    static void clear(){
+    public void clear(){
          operation.clear();
-         operand.clear();
+         number.clear();
+         answer=0;
      }
-    /*
-    static double getNumber (){
-        return number1;
-    }
-    static String getOperation (){
-        return operation;
-    }
-*/
+
 }
