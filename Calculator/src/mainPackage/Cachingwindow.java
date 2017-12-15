@@ -14,6 +14,7 @@ public class Cachingwindow extends JFrame {
        JTextArea area2 = new JTextArea( 31, 20);
     Cachingwindow(){
         super("Cache");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setVisible(true);
         //pack(); 
        area1.setLineWrap(true);

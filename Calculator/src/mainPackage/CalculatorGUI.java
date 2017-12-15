@@ -3,6 +3,13 @@ package mainPackage;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,24 +18,44 @@ import javax.swing.JTextField;
  class CalculatorGUI extends JFrame{
     private JButton [][] number;
     private JButton [] operations;
+    private Socket socket;
     JTextField text;
-    ListenerAnswer listenAn = new ListenerAnswer (this); 
-    ListenerOperations listenOp = new ListenerOperations (this,listenAn);
+     
      CalculatorGUI(){
     super("Calculator");
     //setSize(700, 700);
     setLocationRelativeTo(null);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        try {
+            socket = new Socket("localhost", 8080);
+            ListenerAnswer listenAn = new ListenerAnswer (this,socket);
+            ListenerOperations listenOp = new ListenerOperations (this,listenAn);
+
+    //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     text= new JTextField(30);
     JPanel mainPanel = new JPanel();
      mainPanel.setLayout(new BorderLayout()); 
      mainPanel.add(text,BorderLayout.NORTH);
-        mainPanel.add(addButtonsNumber());
-        mainPanel.add(addButtonsOperations(),BorderLayout.EAST);
-        setContentPane(mainPanel);
+        mainPanel.add(addButtonsNumber(listenAn));
+        mainPanel.add(addButtonsOperations(listenOp,listenAn),BorderLayout.EAST);
+        setContentPane(mainPanel);     
+        } catch (IOException ex) {
+        
+        }
+        this.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent event){
+                try {
+                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                     out.writeBoolean(false);
+                } catch (IOException ex) {
+                    Logger.getLogger(CalculatorGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.exit(0);
+            }
+        });
 
    }   
-     private JPanel addButtonsNumber(){
+     private JPanel addButtonsNumber(ListenerAnswer listenAn){
          ListenerNumbers  listen = new ListenerNumbers (this,listenAn);
         JPanel buttonsPanel = new JPanel(new GridLayout(4,3)); 
       number = new JButton [4][3];
@@ -50,7 +77,7 @@ import javax.swing.JTextField;
          buttonsPanel.add(number[3][1]);
          return buttonsPanel;
   }
-      private JPanel addButtonsOperations(){
+      private JPanel addButtonsOperations(ListenerOperations listenOp,ListenerAnswer listenAn){
  
         JPanel operationPanel = new JPanel(new GridLayout(5,1)); 
          operations = new JButton[5];
